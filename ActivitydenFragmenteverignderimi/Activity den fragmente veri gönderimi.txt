@@ -1,0 +1,40 @@
+1. Fragmente geçiþ için þu ChangeFragment.class projemize eklememiz gerekmektedir.
+   
+   private  Context context;
+
+    public ChangeFragment(Context context) {
+        this.context = context;
+    }
+
+    public  void Change(Fragment fragment){
+        ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, fragment, "fragment")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_ENTER_MASK)
+                .commit();
+    }
+
+2. Daha sonra hangi fragmente hangi veriyi göndereceksek kodu þu þekilde düzenlememiz gerekmektedir.Burda ben
+butona basýnca isim text ini fragmente gönderil þeklinde ayarladým.
+    
+                Fragment fragment = new Fragment1(); // Oluþturduðumuz Fragmente gidiyor
+                Bundle bundle = new Bundle(); // Yeni bundle oluþturduk
+                bundle.putString("isim", editText.getText().toString());  // bundle ile veri gönderme iþlemi yaptýk
+                fragment.setArguments(bundle); // sonra bundle lý setArguments ederek veri gönderme iþlemi tamam
+                
+                ChangeFragment changeFragment = new ChangeFragment(context);
+                changeFragment.Change(fragment);
+
+3. Gönderilen verinin Fragment tarafýndan alýnmasý
+    View view;
+    TextView text;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        String name=getArguments().getString("isim").toString();  // gönderilen veri bu þekilde activity den alýnýr
+
+        view= inflater.inflate(R.layout.fragment_fragment1, container, false);
+        text=(TextView)view.findViewById(R.id.text);
+        return view;
+    }
