@@ -1,0 +1,99 @@
+1. ChangeFragment.class sýnýfýmýzý oluþturup içine þu kodlarý atalým.
+
+   public void change(Fragment fragment){
+        ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout,fragment,"fragmenet")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_ENTER_MASK)
+                .commit();
+    }
+
+     public void ikinciFragmentiGoster(Fragment fragment){
+
+        ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout2,fragment,"fragmenet")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_ENTER_MASK)
+                .commit();
+    }
+
+    public void veriGonder(Fragment fragment,String asd){
+
+        Bundle bundle=new Bundle();
+        bundle.putString("veri",asd);
+        fragment.setArguments(bundle);
+
+        ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout2,fragment,"fragmenet")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_ENTER_MASK)
+                .commit();
+    }
+
+2. MainActivity den fragmentler gözükmesi için þu kodlarý ister butona týklandýðýnda isterse sayfa açýlýr açýlmaz gösterilmesini
+ istiyorsak onCreate içerisine yapýþtýrabiliriz.Ben butona týklandýðýnda gözükmesini istedim.
+   
+                frameLayout.setVisibility(View.VISIBLE);
+                frameLayout2.setVisibility(View.VISIBLE);
+                goster.setVisibility(View.GONE);
+                ChangeFragment changeFragment=new ChangeFragment(context);
+                changeFragment.change(new Frm1());
+                changeFragment.ikinciFragmentiGoster(new Frm2());
+
+3. Biz Frm1() in içinden Frm2() ye veri göndermek istedik. editTextin içerisine yazdýðýmýz veriyi butona týklandýðýnda 
+Frm2() ye gönderiyoruz.
+
+     private void tanimla(){
+        editText=(EditText)view.findViewById(R.id.editText);
+        buton=(Button)view.findViewById(R.id.buton);
+        buton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                action();
+            }
+        });
+    }
+
+    private void action(){
+        ChangeFragment changeFragment=new ChangeFragment(getContext());
+        changeFragment.veriGonder(new Frm2(),editText.getText().toString());
+    }
+
+4.  Frm2() de ise bu gönderdiðimiz veriyi þu þekilde alabiliriz. ilk önce veri gelmiþ mi diye kontrol ederiz. Eðer gelmiþse
+gelen veriyi string ya int deðere eþitler sonra istediðimiz þekilde kullanabiliriz.
+
+    View view;
+    TextView text;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view= inflater.inflate(R.layout.fragment_frm2, container, false);
+
+        if (getArguments() != null) {
+
+            String veri = getArguments().getString("veri").toString();
+            text=(TextView)view.findViewById(R.id.text);
+            text.setText(veri);
+        }
+
+        return view;
+    }
+
+5. Fragmentten Activty ye ise veri gönderirken Intent lerden yaralanýyoruz. 
+
+   Intent intent=new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                    intent.putExtra("giden",veri);
+                    getActivity().startActivity(intent);
+
+6. Activity de ise Fragmentlerden gelen veriyi þu þekilde alabiliriz.
+
+   if(getIntent().getExtras() != null){
+
+            String gelenVeri=getIntent().getExtras().getString("giden").toString();
+            gelenText.setText(gelenVeri);
+            
+            /*Bundle bundle=getIntent().getExtras();
+            String veri=bundle.getString("giden");
+            gelenText.setText(veri);*/
+
+        }
+
