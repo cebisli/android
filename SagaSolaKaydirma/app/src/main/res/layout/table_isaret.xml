@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*" >
+        <TableRow
+            android:background="#dddddd"
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="4dip"
+                android:background="#33B5E5"
+                android:orientation="vertical"
+                android:id="@+id/baslik1" >
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="4dip"
+                android:background="#33B5E5"
+                android:orientation="vertical"
+                android:id="@+id/baslik2"
+                android:visibility="invisible" >
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="4dip"
+                android:background="#33B5E5"
+                android:orientation="vertical"
+                android:id="@+id/baslik3"
+                android:visibility="invisible" >
+
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="1.5dip"
+        android:background="#909BAA"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,279 @@
+1. ilk olarak  table_isaret.xml adýnda bir layout oluþturup içerisine þu kodlarý atalým.
+ 
+  <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*" >
+        <TableRow
+            android:background="#dddddd"
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="4dip"
+                android:background="#33B5E5"
+                android:orientation="vertical"
+                android:id="@+id/baslik1" >
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="4dip"
+                android:background="#33B5E5"
+                android:orientation="vertical"
+                android:id="@+id/baslik2"
+                android:visibility="invisible" >
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="4dip"
+                android:background="#33B5E5"
+                android:orientation="vertical"
+                android:id="@+id/baslik3"
+                android:visibility="invisible" >
+
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="1.5dip"
+        android:background="#909BAA"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</LinearLayout>
+
+2. activity_main.xml içerisini þu þekilde tasarým yapacaz
+   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*" >
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:background="#dddddd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/first_text"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666"
+                    android:gravity="center"
+                    android:text="Fragment 1" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/second_text"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666"
+                    android:gravity="center"
+                    android:text="Fragment 2" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/third_text"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666"
+                    android:gravity="center"
+                    android:text="Fragment 3" />
+
+            </LinearLayout>
+
+        </TableRow>
+    </TableLayout>
+
+    <include
+        layout="@layout/table_isaret"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"  />
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/viewPager" />
+
+</LinearLayout>
+
+3. Bu örnekte 3 tane fragment kullanýlmýþtýr ancak ben burada bir tanesini gösterecem . Diðer 2 tanesi de aynýdýr.
+
+  Ekran1.class
+
+  public class Ekran1 extends Fragment {
+    public static Fragment newInstance(Context context) {
+        Ekran1 frag = new Ekran1();
+        return frag;
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_ekren1, container, false);
+    }
+}
+
+ fragment_ekran1.xml
+
+ <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Ekran1">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:text="Ekran 1" />
+
+</FrameLayout> 
+
+4. Adapter.class adýnda bir class oluþturup içerisine þu kodlarý yapýþtýralým.
+   
+   public class Adepter extends FragmentPagerAdapter {
+    private Context MyContext;
+
+    public Adepter(FragmentManager fm, Context myContext) {
+        super(fm);
+        MyContext = myContext;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        //
+        Fragment frag = new Fragment();
+        switch(position){
+
+            case 0:
+                frag=Ekran1.newInstance(MyContext);
+                break;
+            case 1:
+                frag=Ekran2.newInstance(MyContext);
+                break;
+
+            case 2:
+                frag=Ekran3.newInstance(MyContext);
+                break;
+        }
+        return frag;
+    }
+
+    @Override
+    public int getCount() {
+
+        return 3;  // gösterilecek fragment sayýsý
+    }
+}
+
+5. MainActivity.class sýnýfý
+
+  private ViewPager MyViewPager;
+    private Adepter MyAdapter;
+    Context context=this;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ViewCagir();
+        AktifTab();
+
+    }
+
+    private void ViewCagir(){
+
+        MyViewPager = (ViewPager) findViewById(R.id.viewPager);// ViewPager in tanýmlama iþlemi
+        // adepter nesnesi alýp set etme iþlemleri
+        MyAdapter = (Adepter) new Adepter(getSupportFragmentManager(),this);
+        MyViewPager.setAdapter(MyAdapter);
+        MyViewPager.setCurrentItem(2);  // baþta hangi fragmen tin gösterilmesi gerektiðini söyler
+
+    }
+    private void AktifTab(){
+
+        MyViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+
+            @Override
+            public void onPageScrollStateChanged(int position) {}
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            @Override
+            public void onPageSelected(int position) {
+                // TODO Auto-generated method stub
+                switch(position){
+
+                    case 0:
+                        findViewById(R.id.baslik1).setVisibility(View.VISIBLE);
+                        findViewById(R.id.baslik2).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.baslik3).setVisibility(View.INVISIBLE);
+                        break;
+
+                    case 1:
+                        findViewById(R.id.baslik1).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.baslik2).setVisibility(View.VISIBLE);
+                        findViewById(R.id.baslik3).setVisibility(View.INVISIBLE);
+                        break;
+
+                    case 2:
+                        findViewById(R.id.baslik1).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.baslik2).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.baslik3).setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+        });
+
+    }
