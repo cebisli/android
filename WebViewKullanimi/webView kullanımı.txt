@@ -1,0 +1,53 @@
+1. Þu kodlarý kullandýðýmýz zaman webview kullanýmý gerçekleþecektir.
+
+       WebView webView=new WebView(context);
+        WebSettings ws=webView.getSettings();
+        ws.setBuiltInZoomControls(true); // yakýnlaþtýrma iþlemi
+        ws.setJavaScriptEnabled(true); // javaScript kullanýmý için izin isteme
+
+        webView.loadUrl("https://www.nefisyemektarifleri.com/kategori/tarifler/sebze-yemekleri/ev-yemekleri/");
+        setContentView(webView);
+
+
+2.  Ofline olarak kullanýmý = Yani bizim oluþturmuþ olduðumuz sayfayý kullanara açma
+
+   a. Ýlk olarak res klasörünün altýna raw adýnda bir klasör oluþturup bunun içine html uzantýlý dosayayý atalým.
+   b. Attýðýmýz html uzantýlý dosyayý okumamýz gerekmektedir. onu okuyabilmemiz içinde þu kodlarý kullanmamýz yeterli.
+    
+     // offline kullanýmý
+        // res/raw/dosya.html
+        WebView webView = new WebView(context);
+        WebSettings ws = webView.getSettings();
+        ws.setBuiltInZoomControls(true); // yakýnlaþtýrma iþlemi
+        ws.setJavaScriptEnabled(true); // javaScript kullanýmý için izin isteme
+
+
+        String mime = "text/html";
+        String encoding = "utf-8";
+
+        try {
+            Resources res = this.getResources(); // kaynaðý açtýk
+            InputStream stream = res.openRawResource(R.raw.dosya); // hangi dosya okunacaksa onu iþaret ettik
+            InputStreamReader isr = new InputStreamReader(stream); // dosya içindeki verileri okuma iþlemi yaptýrdýk
+            BufferedReader br = new BufferedReader(isr); // okunan verileri buffered içine attýk
+            String line = "";
+            String data = "";
+
+            while (true) { // sonsuz döngü
+                line = br.readLine(); // verileri line attýk
+                if (line != null) { // eðer line null deðil ise
+                    data += line; // line'i data nýn üzerine yazdýk
+                } else {
+                    break;
+                }
+            }
+  
+            // son açýlan hangisi ise ondan baþlayarak kapatma iþlemlerini gerçekleþtirdik
+            br.close(); 
+            isr.close();
+            stream.close();
+            webView.loadData(data, mime, encoding);
+            setContentView(webView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
